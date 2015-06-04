@@ -1,0 +1,40 @@
+<resources>
+
+    <string name="app_name">PreCrastinate</string>
+    <string name="action_delete_tasks">Delete Completed Tasks</string>
+    <string name="action_add_task">Add Task</string>
+    <string name="action_preferences">Preferences</string>
+    <string name="addTsk">Add Task</string>
+    <string name="date">Due Date</string>
+    <string name="priority">Priority</string>
+    <string name="completed">Completed:</string>
+    <string name="sortByDate">Date</string>
+    <string name="sortByPriority">Priority</string>
+    <string name="addtask">Add</string>
+    <string name="edit_message">Enter a Message</string>
+    <string name="new_task">Task Name</string>
+    <string name="due_date">Due Date</string>
+    <string name="button_save">Save Task</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="button_read">Read</string>
+    <string name="group">Group</string>
+    <string name="title_activity_add_task">AddTask</string>
+    <string name="description">Description</string>
+    <string name="remTimeLabel">When would you like to be reminded?</string>
+    <string name="groupLabel">My Groups</string>
+    <string name="addGrp">Add a Group</string>
+    <string name="savePrefs">Save Preferences</string>
+    <string name="grpNameLabel">Group Name</string>
+    <string name="grpColorLabel">Group Color</string>
+    <string name="grpUpdateLabel">Update This Group</string>
+    <string name="grpDeleteLabel">Delete This Group</string>
+    <string name="blank0"></string>
+    <string name="blank1">&quot; &quot;</string>
+    <string name="blank2">&quot;  &quot;</string>
+
+</resources>
+

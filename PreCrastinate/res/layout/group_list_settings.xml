@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="100dip"
+    android:orientation="vertical" >
+
+    <TextView
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:id="@+id/grpNameDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:clickable="false"
+        android:background="#9E9FA0"
+        android:textColor="#ffffff"
+        android:text="@string/grpNameLabel" />
+
+    <EditText
+        android:id="@+id/grpName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/grpNameDesc"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:paddingBottom="3dp"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingTop="3dp"
+        android:textSize="17sp" />
+
+    <TextView
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:id="@+id/grpColorDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/grpName"
+        android:clickable="false"
+        android:background="#9E9FA0"
+        android:textColor="#ffffff"
+        android:text="@string/grpColorLabel" />
+
+    <RadioGroup
+        android:id="@+id/grpColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/grpColorDesc"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/color0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/green_button"
+            android:onClick="onRadioButtonClicked" />
+
+        <RadioButton
+            android:id="@+id/color1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/blue_button"
+            android:onClick="onRadioButtonClicked" />
+
+        <RadioButton
+            android:id="@+id/color2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/purple_button"
+            android:onClick="onRadioButtonClicked" />
+
+        <RadioButton
+            android:id="@+id/color3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/red_button"
+            android:onClick="onRadioButtonClicked" />
+
+        <RadioButton
+            android:id="@+id/color4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/orange_button"
+            android:onClick="onRadioButtonClicked" />
+    </RadioGroup>
+    
+    <TextView
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:id="@+id/grpThirdMargin"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/grpColor"
+        android:background="#9E9FA0"
+        android:clickable="false" />
+
+    <Button
+        android:id="@+id/grpDeleteBtn"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/grpThirdMargin"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/delete_button"
+        android:onClick="onGrpDeleteBtnClicked"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/grpDeleteLabel"
+        android:textColor="#ffffff" />
+    
+    <Button
+        android:id="@+id/grpUpdateBtn"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/grpThirdMargin"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/update_button"
+        android:onClick="onGrpUpdateBtnClicked"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="@string/grpUpdateLabel"
+        android:textColor="#ffffff" />
+    
+    <TextView
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:id="@+id/grpFourthMargin"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/grpDeleteBtn"
+        android:background="#9E9FA0"
+        android:clickable="false" />
+ 
+</RelativeLayout>

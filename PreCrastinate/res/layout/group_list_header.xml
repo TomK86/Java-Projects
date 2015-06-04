@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="45dp"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="#ffffff">
+    
+    <ImageView
+        android:id="@+id/colorBlock"
+        android:layout_width="30dp"
+        android:minWidth="30dp"
+        android:maxWidth="30dp"
+        android:layout_height="30dp"
+        android:minHeight="30dp"
+        android:maxHeight="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:layout_centerVertical="true"
+        android:clickable="false"
+        android:longClickable="false"
+        android:contentDescription="@string/blank1" />
+
+    <TextView
+        android:id="@+id/grpHeaders"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/colorBlock"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:paddingLeft="3dp"
+        android:textColor="#000000"
+        android:textSize="17sp" 
+        android:textStyle="bold"/>
+ 
+</RelativeLayout>
