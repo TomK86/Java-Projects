@@ -13,7 +13,6 @@ import java.util.*;
 import java.lang.*;
 import java.io.*;
 
-/* Package Class */
 public class Package {
   private static int N;
 
@@ -23,7 +22,7 @@ public class Package {
    * Time complexity: O(n log n)
    * Space complexity: O(n)
    */
-  public static int[] findItems (double limit, double[] arr) {
+  public static int[] findItems(double limit, double[] arr) {
     double[] sorted_arr = new double[arr.length];
     System.arraycopy(arr, 0, sorted_arr, 0, arr.length);
     heapSort(sorted_arr);
@@ -52,15 +51,15 @@ public class Package {
       }
       return -1d;
     }
-    int i = arr.length / 2;
-    if (arr[i] < target) {
-      return binarySearch(Arrays.copyOfRange(arr, i+1, arr.length-1), target);
+    int mid = arr.length / 2;
+    if (arr[mid] < target) {
+      return binarySearch(Arrays.copyOfRange(arr, mid+1, arr.length), target);
     }
-    else if (arr[i] > target) {
-      return binarySearch(Arrays.copyOfRange(arr, 0, i), target);
+    else if (arr[mid] > target) {
+      return binarySearch(Arrays.copyOfRange(arr, 0, mid), target);
     }
     else {
-      return arr[i];
+      return arr[mid];
     }
   }
 
@@ -113,6 +112,7 @@ public class Package {
       if (limit == 0d) { limit = sc.nextDouble(); }
       else { list.add(sc.nextDouble()); }
     }
+    sc.close();
     double[] arr = new double[list.size()];
     arr = list.toArray(arr);
     int[] result = findItems(limit, arr);
@@ -120,12 +120,12 @@ public class Package {
       System.out.println("No item pairs were found with total weight equal to limit.");
     }
     else {
-      int i = arrresult[0];
+      int i = result[0];
       int j = result[1];
-      System.out.println("Index of item 1: " + Integer.toString(i));
-      System.out.println("Weight of item 1: " + Double.toString(arr[i]));
-      System.out.println("Index of item 2: " + Integer.toString(j));
-      System.out.println("Weight of item 2: " + Double.toString(arr[j]));
+      System.out.println("Index of item 1: " + i);
+      System.out.println("Weight of item 1: " + arr[i]);
+      System.out.println("Index of item 2: " + j);
+      System.out.println("Weight of item 2: " + arr[j]);
     }
   }
 }
