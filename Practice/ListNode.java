@@ -67,13 +67,18 @@ public class ListNode {
   public static void main(String[] args) {
     ListNode l1, l2;
     Scanner sc = new Scanner(System.in);
-    if (sc.hasNextInt()) { l1 = new ListNode(sc.nextInt()); }
-    if (sc.hasNextInt()) { l2 = new ListNode(sc.nextInt()); }
-    sc.close();
-    if (l1 == null || l2 == null) {
-      System.out.println("Error: wrong input");
+    if (sc.hasNextInt()) {
+      int n = sc.nextInt();
+      if (n < 0) { System.out.println("Error: input must be non-negative"); }
+      else { l1 = new ListNode(n); }
     }
-    else {
+    if (sc.hasNextInt()) {
+      int n = sc.nextInt();
+      if (n < 0) { System.out.println("Error: input must be non-negative"); }
+      else { l2 = new ListNode(n); }
+    }
+    sc.close();
+    if (l1 != null && l2 != null) {
       System.out.println("(" + printable(l1) + ") + (" + printable(l2) + ")");
       System.out.println("= " + printable(addTwoNumbers(l1, l2, 0)));
     }
