@@ -18,9 +18,11 @@ import java.lang.*;
 import java.io.*;
 
 public class ListNode {
+  /* ListNode Parameters */
   ListNode next;
   int val;
-    
+  
+  /* ListNode Constructor */
   ListNode(int x) {
     if (x < 10) { val = x; }
     else {
@@ -28,8 +30,9 @@ public class ListNode {
       next = new ListNode(x / 10);
     }
   }
-    
-  public ListNode addTwoNumbers(ListNode l1, ListNode l2, int remainder) {
+  
+  /* Function to get a ListNode containing the sum of two ListNodes */
+  public ListNode sum(ListNode l1, ListNode l2, int remainder) {
     int sum = l1.val + l2.val + remainder;
     if (sum >= 10) {
       remainder = 1;
@@ -38,13 +41,13 @@ public class ListNode {
     else { remainder = 0; }
     ListNode result = new ListNode(sum);
     if (l1.next != null && l2.next != null) {
-      result.next = addTwoNumbers(l1.next, l2.next, remainder);
+      result.next = sum(l1.next, l2.next, remainder);
     }
     else if (l1.next != null) {
-      result.next = addTwoNumbers(l1.next, new ListNode(0), remainder);
+      result.next = sum(l1.next, new ListNode(0), remainder);
     }
     else if (l2.next != null) {
-      result.next = addTwoNumbers(new ListNode(0), l2.next, remainder);
+      result.next = sum(new ListNode(0), l2.next, remainder);
     }
     else if (remainder == 1) {
       result.next = new ListNode(1);
@@ -52,6 +55,7 @@ public class ListNode {
     return result;
   }
 
+  /* Function to return a formatted string with the values of a ListNode */
   public String printable(ListNode l) {
     if (l == null) { return "NULL"; }
     else {
@@ -64,6 +68,7 @@ public class ListNode {
     }
   }
 
+  /* Main Function */
   public static void main(String[] args) {
     ListNode l1, l2;
     Scanner sc = new Scanner(System.in);
@@ -80,7 +85,7 @@ public class ListNode {
     sc.close();
     if (l1 != null && l2 != null) {
       System.out.println("(" + printable(l1) + ") + (" + printable(l2) + ")");
-      System.out.println("= " + printable(addTwoNumbers(l1, l2, 0)));
+      System.out.println("= " + printable(sum(l1, l2, 0)));
     }
   }
 }
