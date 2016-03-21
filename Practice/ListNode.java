@@ -11,8 +11,9 @@
  *   465
  *
  *   Output:
- *   (2 -> 4 -> 3) + (5 -> 6 -> 4)
- *   = 7 -> 0 -> 8
+ *     (2 -> 4 -> 3)
+ *   + (5 -> 6 -> 4)
+ *   = (7 -> 0 -> 8)
  */
 
 import java.util.*;
@@ -57,16 +58,21 @@ public class ListNode {
     return result;
   }
 
+  /* Simplified sum function call */
+  public ListNode sum(ListNode l1, ListNode l2) {
+    return sum(l1, l2, 0);
+  }
+
   /* Function to return a formatted string with the values of a ListNode */
   public String printable(ListNode l) {
     if (l == null) { return "NULL"; }
     else {
-      String s = Integer.parseInt(l.val);
+      String s = "(" + l.val;
       while (l.next != null) {
         l = l.next;
         s += " -> " + l.val;
       }
-      return s;
+      return s + ")";
     }
   }
 
@@ -85,10 +91,11 @@ public class ListNode {
     if (n < 0) { System.out.println("Error: input must be non-negative"); }
     else { l2 = new ListNode(n); }
     input.close();
-    
+
     if (l1 != null && l2 != null) {
-      System.out.println("(" + printable(l1) + ") + (" + printable(l2) + ")");
-      System.out.println("= " + printable(sum(l1, l2, 0)));
+      System.out.println("  " + printable(l1));
+      System.out.println("+ " + printable(l2));
+      System.out.println("= " + printable(sum(l1, l2)));
     }
   }
 }
