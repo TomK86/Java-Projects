@@ -7,10 +7,12 @@
  *
  * Example:
  *   Input:
- *   (2 -> 4 -> 3) + (5 -> 6 -> 4)
+ *   342
+ *   465
  *
  *   Output:
- *   7 -> 0 -> 8
+ *   (2 -> 4 -> 3) + (5 -> 6 -> 4)
+ *   = 7 -> 0 -> 8
  */
 
 import java.util.*;
@@ -18,7 +20,7 @@ import java.lang.*;
 import java.io.*;
 
 public class ListNode {
-  /* ListNode Parameters */
+  /* ListNode Attributes */
   ListNode next;
   int val;
   
@@ -70,19 +72,20 @@ public class ListNode {
 
   /* Main Function */
   public static void main(String[] args) {
+    int n;
     ListNode l1, l2;
-    Scanner sc = new Scanner(System.in);
-    if (sc.hasNextInt()) {
-      int n = sc.nextInt();
-      if (n < 0) { System.out.println("Error: input must be non-negative"); }
-      else { l1 = new ListNode(n); }
-    }
-    if (sc.hasNextInt()) {
-      int n = sc.nextInt();
-      if (n < 0) { System.out.println("Error: input must be non-negative"); }
-      else { l2 = new ListNode(n); }
-    }
-    sc.close();
+
+    Scanner input = new Scanner(System.in);
+    System.out.print("First number: ");
+    n = Integer.parseInt(input.nextLine());
+    if (n < 0) { System.out.println("Error: input must be non-negative"); }
+    else { l1 = new ListNode(n); }
+    System.out.print("Second number: ");
+    n = Integer.parseInt(input.nextLine());
+    if (n < 0) { System.out.println("Error: input must be non-negative"); }
+    else { l2 = new ListNode(n); }
+    input.close();
+    
     if (l1 != null && l2 != null) {
       System.out.println("(" + printable(l1) + ") + (" + printable(l2) + ")");
       System.out.println("= " + printable(sum(l1, l2, 0)));
