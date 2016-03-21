@@ -15,6 +15,15 @@
  *   Array of two items - start and end times of the planned meeting, representing the
  *   earliest opportunity for the two persons to meet for a dur length meeting.   If no
  *   possible meeting can be scheduled, return an empty array instead.
+ *
+ * Example:
+ *   Input:
+ *   5000
+ *   1449980000 1449990000 1450000000 1450015000 1450030000 1450050000
+ *   1449960000 1449970000 1450005000 1450020000 1450040000 1450060000
+ *
+ *   Output:
+ *   1450005000 1450010000
  */
 
 import java.util.*;
@@ -41,33 +50,31 @@ public class Planner {
   public static void main(String[] args) {
     int dur;
     int[][] timesA, timesB;
+    String[] str;
 
-    Scanner sc = new Scanner(System.in);
-    if (sc.hasNextLine()) {
-      dur = Integer.parseInt(sc.nextLine());
+    Scanner input = new Scanner(System.in);
+    System.out.print("Duration of meeting (in seconds): ");
+    dur = Integer.parseInt(input.nextLine());
+    System.out.println("Availability of person A (in Unix format):");
+    str = input.nextLine().split(" ");
+    timesA = new int[str.length / 2][2];
+    for (int i = 0; i < str.length / 2; i += 2) {
+      timesA[i][0] = Integer.parseInt(str[2 * i]);
+      timesA[i][1] = Integer.parseInt(str[2 * i + 1]);
     }
-    if (sc.hasNextLine()) {
-      String[] str = sc.nextLine().split(" ");
-      timesA = new int[str.length / 2][2];
-      for (int i = 0; i < str.length / 2; i += 2) {
-        timesA[i][0] = Integer.parseInt(str[2*i]);
-        timesA[i][1] = Integer.parseInt(str[2*i+1]);
-      }
+    System.out.println("Availability of person B (in Unix format):");
+    str = input.nextLine().split(" ");
+    timesB = new int[str.length / 2][2];
+    for (int i = 0; i < str.length / 2; i += 2) {
+      timesB[i][0] = Integer.parseInt(str[2 * i]);
+      timesB[i][1] = Integer.parseInt(str[2 * i + 1]);
     }
-    if (sc.hasNextLine()) {
-      String[] str = sc.nextLine().split(" ");
-      timesB = new int[str.length / 2][2];
-      for (int i = 0; i < str.length / 2; i += 2) {
-        timesB[i][0] = Integer.parseInt(str[2*i]);
-        timesB[i][1] = Integer.parseInt(str[2*i+1]);
-      }
-    }
-    sc.close();
-    
+    input.close();
+
     if (dur != null && timesA != null && timesB != null) {
       int[] meetingTimes = scheduleMeeting(dur, timesA, timesB);
       if (meetingTimes.length == 2) {
-        System.out.println(meetingTimes[0] + " - " + meetingTimes[1]);
+        System.out.println(meetingTimes[0] + " " + meetingTimes[1]);
       }
       else {
         System.out.println("No compatible meeting times found.");
