@@ -7,16 +7,15 @@
 
 import java.util.*;
 import java.lang.*;
-import java.io.*;
 
 /*
  * The top-level class, which stores Payer and Item objects and uses
  * this information to split the bill
  *
  * Members:
- *  P - an array of Payer objects representing all of the people who owe money
+ *  P - a map of String names to Payer objects representing all of the people who owe money
  *  I - an array of Item objects representing all of the line items on the bill
- *  tax - a double (>= 1) representing the local sales tax percentage
+ *  tax - a double (between 1 and 2) representing the local sales tax percentage
  */
 public class RestaurantBill {
   // RestaurantBill members
@@ -26,15 +25,15 @@ public class RestaurantBill {
 
   // RestaurantBill default constructor
   RestaurantBill() {
-    P = new HashMap<String, Payer>();
-    I = new ArrayList<Item>();
+    P = new HashMap<>();
+    I = new ArrayList<>();
     tax = 0d;
   }
 
   // RestaurantBill constructor with arguments
   RestaurantBill(HashMap<String, Payer> payers, ArrayList<Item> items, double tax_percentage) {
-    P = new HashMap<String, Payer>(payers);
-    I = new ArrayList<Item>(items);
+    P = new HashMap<>(payers);
+    I = new ArrayList<>(items);
     tax = tax_percentage;
   }
 
@@ -43,8 +42,8 @@ public class RestaurantBill {
     int qty;
     double cost, total = 0d;
     for (int i = 0; i < I.size(); i++) {
-      cost = I[i].getCost();
-      qty = I[i].getQty();
+      cost = I.get(i).getCost();
+      qty = I.get(i).getQty();
       total += cost * qty;
     }
     return total;
@@ -57,10 +56,10 @@ public class RestaurantBill {
   public void addItem(Item item) { I.add(item); }
 
   // Method to empty the list of line items
-  public void clearItems() { I = new ArrayList<Item>(); }
+  public void clearItems() { I = new ArrayList<>(); }
 
   // Method to empty the list of payers
-  public void clearPayers() { P = new HashMap<String, Payer>(); }
+  public void clearPayers() { P = new HashMap<>(); }
 
   // Method to reset the amount owed by each payer to zero
   public void clearAmtsOwed() {
@@ -69,7 +68,8 @@ public class RestaurantBill {
 
   // Method to ask the user for input about the local sales tax
   public void getTax() {
-    double response;
+    double response = 0d;
+
     Scanner input = new Scanner(System.in);
     System.out.print("What is the local sales tax? ");
     try { response = Double.parseDouble(input.nextLine()); }
@@ -79,12 +79,10 @@ public class RestaurantBill {
     if (response < 0d) {
       System.out.println("Error: tax percentage cannot be negative");
       getTax();
-      return;
     }
     else if (response > 100d) {
       System.out.println("Error: tax percentage cannot exceed 100%");
       getTax();
-      return;
     }
     else if (response < 1d) { tax = response + 1d; }
     else { tax = (response / 100d) + 1d; }
@@ -93,8 +91,8 @@ public class RestaurantBill {
   // Method to ask the user for input about line items on the bill
   public void getItems() {
     String name, response;
-    double cost;
-    int qty, idx = 1;
+    double cost = 0d;
+    int qty = 0, idx = 1;
 
     clearItems();
     Scanner input = new Scanner(System.in);
@@ -107,13 +105,13 @@ public class RestaurantBill {
     try {
       qty = Integer.parseInt(input.nextLine());
     } catch (NumberFormatException e) { e.printStackTrace(); }
-    if (qty == null || qty < 1) { qty = 1; }
+    if (qty < 1) { qty = 1; }
 
     System.out.print("What is the cost of each " + name + " (before tax)? $");
     try {
       cost = Double.parseDouble(input.nextLine());
     } catch (NumberFormatException e) { e.printStackTrace(); }
-    if (cost == null) { cost = 0d; }
+    if (cost == 0d) { cost = 0d; }
 
     addItem(new Item(cost, qty, name));
     idx++;
@@ -121,7 +119,7 @@ public class RestaurantBill {
     System.out.print("Are there any more line items to add (y/n)? ");
     response = input.nextLine();
 
-    while (response == "y" || response == "Y") {
+    while (response.equals("y") || response.equals("Y")) {
       System.out.print("What is the name of the next line item? ");
       name = input.nextLine();
       if (name.isEmpty()) { name = "Line Item #" + idx; }
@@ -130,13 +128,13 @@ public class RestaurantBill {
       try {
         qty = Integer.parseInt(input.nextLine());
       } catch (NumberFormatException e) { e.printStackTrace(); }
-      if (qty == null || qty < 1) { qty = 1; }
+      if (qty < 1) { qty = 1; }
 
       System.out.print("What is the cost of each " + name + " (before tax)? $");
       try {
         cost = Double.parseDouble(input.nextLine());
       } catch (NumberFormatException e) { e.printStackTrace(); }
-      if (cost == null) { cost = 0d; }
+      if (cost == 0d) { cost = 0d; }
 
       addItem(new Item(cost, qty, name));
       idx++;
@@ -165,7 +163,7 @@ public class RestaurantBill {
     System.out.print("Are there any more payers to add (y/n)? ");
     response = input.nextLine();
 
-    while (response == "y" || response == "Y") {
+    while (response.equals("y") || response.equals("Y")) {
       System.out.print("What is the next payer's name? ");
       name = input.nextLine();
       if (name.isEmpty()) { name = "Payer #" + idx; }
@@ -182,7 +180,7 @@ public class RestaurantBill {
   // Method to ask the user for input about what item(s) each payer had
   public void getAmtsOwed(boolean keep_current_payers) {
     String item, name;
-    int idx, qty, q;
+    int idx, qty, q = 0;
     double cost;
     Payer p;
 
@@ -198,9 +196,9 @@ public class RestaurantBill {
     Scanner input = new Scanner(System.in);
 
     for (int i = 0; i < I.size(); i++) {
-      item = I[i].getName();
-      qty = I[i].getQty();
-      cost = I[i].getCost();
+      item = I.get(i).getName();
+      qty = I.get(i).getQty();
+      cost = I.get(i).getCost();
 
       System.out.print("Who had " + item + "? ");
       name = input.nextLine();
@@ -259,7 +257,7 @@ public class RestaurantBill {
     System.out.println("Tax: %" + (tax * 100));
     total *= tax;
     System.out.println("Grand Total: $" + total);
-    System.out.println("=" * 40);
+    System.out.println(new String(new char[40]).replace("\0", "="));
 
     for (String name : P.keySet()) {
       amt_owed = P.get(name).getAmtOwed();
@@ -267,6 +265,11 @@ public class RestaurantBill {
       amt_owed *= tax;
       System.out.println(name + " owes $" + amt_owed + " after tax");
     }
+  }
+
+  /* Main Function */
+  public static void main(String[] args) {
+    split(true);
   }
 }
 
@@ -281,7 +284,7 @@ class Payer {
   // Payer members
   private double amt_owed;
 
-  // Payer default constructor
+  // Payer constructor
   Payer() {
     amt_owed = 0d;
   }
@@ -301,7 +304,7 @@ class Payer {
  * A class which stores information about a single line item on the bill
  *
  * Members:
- *  qty - an integer (>0) containing the quanitity of the item
+ *  qty - an integer (>0) containing the quantity of the item
  *  cost - a double containing the cost for each item
  *  name - a string containing the name of the item
  */
@@ -311,28 +314,7 @@ class Item {
   private double cost;
   private String name;
 
-  // Item constructor for a single unnamed item
-  Item(double item_cost) {
-    qty = 1;
-    cost = item_cost;
-    name = "";
-  }
-
-  // Item constructor for a single named item
-  Item(double item_cost, String item_name) {
-    qty = 1;
-    cost = item_cost;
-    name = item_name;
-  }
-
-  // Item constructor for duplicate unnamed items
-  Item(double cost_per_item, int quantity) {
-    qty = quantity;
-    cost = cost_per_item;
-    name = "";
-  }
-
-  // Item constructor for duplicate named items
+  // Item constructor
   Item(double cost_per_item, int quantity, String item_name) {
     qty = quantity;
     cost = cost_per_item;
@@ -343,10 +325,4 @@ class Item {
   public int getQty() { return qty; }
   public double getCost() { return cost; }
   public String getName() { return name; }
-}
-
-/* Main Function */
-public static void main(String[] args) {
-  RestaurantBill bill = new RestaurantBill();
-  bill.split(true);
 }
