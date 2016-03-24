@@ -1,0 +1,1 @@
+# EditCurrency - an EditText extension for Android
