@@ -6,7 +6,7 @@ EditCurrency is an extension of the EditText view, used in the development of An
 
 #### How to Use EditCurrency
 
-1. Copy the EditCurrency.java and CurrencyWatcher.java files from this repository into your existing Android project's java class directory.  It's usually in app/src/main/java/com/something/something (the same directory your MainActivity.java file is in).
+1. Copy the `EditCurrency.java` and `CurrencyWatcher.java` files from this repository into your existing Android project's java class directory.  It's usually in app/src/main/java/com/something/something (the same directory your `MainActivity.java` file is in).
 2. Edit the first line of each of these files to match your package address (com.something.something).
 3. Add the following block of code as a view in one of your layout xml files:
 ```
@@ -22,7 +22,7 @@ That's it!  Now you can access the current double value of the EditCurrency view
 EditCurrency editCurrency = (EditCurrency) findViewById(R.id.edit_currency);
 double value = editCurrency.getTextAsDouble();
 ```
-`getTextAsDouble()` throws a `ParseException` when trying to parse an invalid string from the editable field.  This should never happen under normal use cases however, provided the input restrictions remain in place.
+Note that `getTextAsDouble()` throws a `ParseException` when trying to parse an invalid string from the editable field.  However this should never happen under normal use cases, provided the input restrictions remain in place.
 
 #### License
 
