@@ -34,7 +34,15 @@ public class EditCurrency extends EditText {
         setInputType(InputType.TYPE_CLASS_NUMBER);
         setText(zero_currency);
         setSelection(zero_currency.length());
+
         addTextChangedListener(new CurrencyWatcher(this));
+
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSelection(getText().length());
+            }
+        });
     }
 
 }
