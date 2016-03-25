@@ -23,3 +23,7 @@ That's it!  Now you can access the current double value of the EditCurrency view
 EditCurrency editCurrency = (EditCurrency) findViewById(R.id.edit_currency);
 double value = editCurrency.getTextAsDouble();
 ```
+
+#### License
+
+This code is licensed for use under the [GNU General Public License, version 3 (GPL-3.0)](https://opensource.org/licenses/GPL-3.0).
