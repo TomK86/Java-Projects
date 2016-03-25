@@ -2,7 +2,7 @@
 
 #### About
 
-EditCurrency is an extension of the EditText view, used in the development of Android applications.  It was designed to make entering currency values into a touch-screen mobile device easier on both the user and the developer.  An EditCurrency view has its input type set to numeric by default, and automatically updates the displayed number with the NumberFormat currency formatting of the local region.  The user simply has to type in digits to enter a currency value, or press the delete key to go back a step if a mistake is made.  The developer simply has to add an EditCurrency view to their chosen layout xml file, and call the `getTextAsDouble()` method to retrieve the current currency value as a double.
+EditCurrency is an extension of the EditText view, used in the development of Android applications.  It was designed to make entering currency values into a touch-screen mobile device easier on both the user and the developer.  An EditCurrency view has its input type set to numeric by default, and automatically updates the displayed number with NumberFormat currency formatting.  The user simply has to type in digits to enter a currency value, or press the delete key to go back a step if a mistake is made.  The developer simply has to add an EditCurrency view to their chosen layout xml file, and call the `getTextAsDouble()` method to retrieve the current currency value as a double.
 
 #### How to Use EditCurrency
 
