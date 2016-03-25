@@ -4,30 +4,37 @@ import android.content.Context;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.widget.EditText;
+import java.text.NumberFormat;
+import java.text.ParseException;
 
 public class EditCurrency extends EditText {
 
     public EditCurrency(Context context) {
         super(context);
-        setInputType(InputType.TYPE_CLASS_NUMBER);
-        addTextChangedListener(new CurrencyWatcher(this));
+        init();
     }
 
     public EditCurrency(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setInputType(InputType.TYPE_CLASS_NUMBER);
-        addTextChangedListener(new CurrencyWatcher(this));
+        init();
     }
 
     public EditCurrency(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setInputType(InputType.TYPE_CLASS_NUMBER);
-        addTextChangedListener(new CurrencyWatcher(this));
+        init();
     }
 
-    public double getTextAsDouble() throws NumberFormatException {
-        String s = getText().toString().replaceAll("[$,]", "");
-        return Double.parseDouble(s);
+    public double getTextAsDouble() throws ParseException {
+        String s = getText().toString();
+        return NumberFormat.getCurrencyInstance().parse(s).doubleValue();
+    }
+    
+    private void init() {
+        String zero_currency = NumberFormat.getCurrencyInstance().format(0);
+        setInputType(InputType.TYPE_CLASS_NUMBER);
+        setText(zero_currency);
+        setSelection(zero_currency.length());
+        addTextChangedListener(new CurrencyWatcher(this));
     }
 
 }

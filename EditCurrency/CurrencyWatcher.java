@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 
 public class CurrencyWatcher implements TextWatcher {
+
     private final WeakReference<EditText> editTextWeakReference;
 
     public CurrencyWatcher(EditText editText) {
@@ -28,11 +29,13 @@ public class CurrencyWatcher implements TextWatcher {
         if (editText == null) return;
         String s = editable.toString();
         editText.removeTextChangedListener(this);
-        String cleanString = s.replaceAll("[$,.]", "");
-        BigDecimal parsed = new BigDecimal(cleanString).setScale(2, BigDecimal.ROUND_FLOOR).divide(new BigDecimal(100), BigDecimal.ROUND_FLOOR);
+        String digits = s.replaceAll("[^0-9]", "");
+        BigDecimal parsed = new BigDecimal(digits).setScale(2, BigDecimal.ROUND_FLOOR)
+            .divide(new BigDecimal(100), BigDecimal.ROUND_FLOOR);
         String formatted = NumberFormat.getCurrencyInstance().format(parsed);
         editText.setText(formatted);
         editText.setSelection(formatted.length());
         editText.addTextChangedListener(this);
     }
+    
 }
