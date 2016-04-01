@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:padding="24dp"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/query_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:textSize="20sp" />
+
+    <Button
+        style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/yes_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/query_text"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:paddingStart="-16dp"
+        android:paddingLeft="-16dp"
+        android:textColor="@color/green"
+        android:text="@string/btn_yes"/>
+
+    <Button
+        style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/no_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/query_text"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:paddingEnd="-16dp"
+        android:paddingRight="-16dp"
+        android:textColor="@color/red"
+        android:text="@string/btn_no"/>
+
+</RelativeLayout>
