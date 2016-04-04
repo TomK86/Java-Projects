@@ -1,13 +1,12 @@
 <resources>
-    <string name="app_name">SplitTheBill</string>
-    <string name="title_activity_payer_list">PayerListActivity</string>
-    <string name="title_activity_item_list">ItemListActivity</string>
     <string name="add_item_cost_label">Enter the cost (for each item):</string>
     <string name="add_item_name_hint">ex: Chicken Parmesan</string>
     <string name="add_item_name_label">Enter a name for this item:</string>
     <string name="add_item_qty_label">Choose the quantity:</string>
     <string name="add_payer_name_hint">ex: John Doe</string>
     <string name="add_payer_name_label">What is this person\'s name?</string>
+    <string name="action_back">Back</string>
+    <string name="app_name">SplitTheBill</string>
     <string name="btn_done">Done</string>
     <string name="btn_even_split">Split\nEvenly</string>
     <string name="btn_finish">All done?\nTap here to finish</string>
@@ -20,8 +19,8 @@
     <string name="btn_split">Split!</string>
     <string name="btn_submit">Submit</string>
     <string name="btn_yes">Yes</string>
-    <string name="confirm_remove_item">Are you sure you want to remove this item?</string>
-    <string name="confirm_remove_payer">Are you sure you want to remove this person?</string>
+    <string name="confirm_remove_item">Are you sure you want to remove %s from your bill?</string>
+    <string name="confirm_remove_payer">Are you sure you want to remove %s from your party?</string>
     <string name="error_add_item_cost_zero">Please enter a cost for this line item</string>
     <string name="error_add_item_name_empty">Please enter a name for this line item</string>
     <string name="error_add_payer_name_empty">Please enter a name for this person</string>
@@ -42,6 +41,7 @@
     <string name="payer_list_info">This is your party. Tap the button on the bottom right to add people to it. Tap a person\'s name to remove them. Press the back button when you\'re done.</string>
     <string name="payer_list_label">Name</string>
     <string name="pct">%</string>
+    <string name="query_even_split">Would you like to split the %1$d %2$s evenly among the %3$d selected people?</string>
     <string name="query_item_select_first">Please select a line item to get started:\n</string>
     <string name="query_item_select_next">Please select another line item:\n</string>
     <string name="query_main">Would you like to split the bill evenly among everyone, or split it up by line item?</string>
@@ -49,8 +49,12 @@
     <string name="query_payer_reselect_more">Who is paying for these %1$d %2$s?</string>
     <string name="query_payer_reselect_one">Who is paying for this %s?</string>
     <string name="query_payer_select">Please select everyone who had %s:</string>
-    <string name="query_yes_no">Would you like to split the %1$d %2$s evenly among the %3$d selected people?</string>
     <string name="tax_hint">ex: 7.5</string>
     <string name="tax_label">Local sales tax:</string>
-    <string name="welcome">Split the Bill!</string>
+    <string name="title_activity_even_split">Split Evenly</string>
+    <string name="title_activity_item_list">Edit Bill</string>
+    <string name="title_activity_main">Split the Bill</string>
+    <string name="title_activity_payer_list">Edit Party</string>
+    <string name="title_activity_split">Split by Line Item</string>
+    <string name="welcome">Welcome to\nSplit the Bill!</string>
 </resources>

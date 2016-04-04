@@ -2,6 +2,7 @@ package com.tkelly.splitthebill;
 
 import android.app.Application;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MyApplication extends Application {
     // Global member variables
@@ -81,7 +82,16 @@ public class MyApplication extends Application {
     public void clearItems() { items = new ArrayList<>(); }
     public void clearCompleted() { for (Item i : items) i.setCompleted(false); }
     public void clearPayers() { payers = new ArrayList<>(); }
-    public void clearAmtsOwed() { for (Payer p : payers) p.clearAmtOwed(); }
+    public void clearAmtsOwed() {
+        for (Payer payer : payers) {
+            payer.clearAmtOwed();
+        }
+    }
+    public void clearAllPayments() {
+        for (Item item : items) {
+            item.clearPayments();
+        }
+    }
 
     // Check if arrays are empty
     public boolean payersIsEmpty() { return payers.isEmpty(); }
@@ -90,10 +100,14 @@ public class MyApplication extends Application {
     // Set the sales tax percentage
     public void setTax(double new_tax) { tax = new_tax; }
 
-    // Add the given amount to the amounts owed by the payer(s) at the given indices
-    public void updateAmtsOwed(ArrayList<Integer> indices, double amount) {
-        for (int idx : indices) {
-            payers.get(idx).updateAmtOwed(amount);
+    // Update each payer's amount owed according to the payments stored in items
+    public void updateAmtsOwed() {
+        clearAmtsOwed();
+        for (Item item : items) {
+            HashMap<Integer, Double> payments = item.getPayments();
+            for (int i : payments.keySet()) {
+                payers.get(i).updateAmtOwed(payments.get(i));
+            }
         }
     }
 

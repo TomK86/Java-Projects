@@ -29,20 +29,31 @@ public class Payer {
     // Get methods
     public String getName() { return name; }
     public double getAmtOwed() { return amt_owed; }
-    public String getAmtOwedFormatted() {
-        return NumberFormat.getCurrencyInstance().format(amt_owed);
-    }
 
-    // Set methods
+    // Set method
     public void setName(String new_name) { name = new_name; }
 
-    // Method to reset the amount the payer owes to zero
+    // Clear method
     public void clearAmtOwed() { amt_owed = 0d; }
 
-    // Methods to add the given amount to the amount the payer owes
+    // Method to add the given amount to the amount this payer owes
     public void updateAmtOwed(double amount) { amt_owed += amount; }
-    public void updateAmtOwed(String formatted_amount) throws ParseException {
-        amt_owed += NumberFormat.getCurrencyInstance().parse(formatted_amount).doubleValue();
+
+    // Method to get a string containing this payer's name and the amount they owe, if any
+    public String getResult(double tax) {
+        if (amt_owed > 0d) {
+            return name + " owes " + NumberFormat.getCurrencyInstance().format(amt_owed * tax) +
+                    "\n(" + NumberFormat.getCurrencyInstance().format(amt_owed) + " before tax)\n";
+        } else { return ""; }
+    }
+
+    // Method to get a string containing a tip guide based on the amount this payer owes, if any
+    public String getTipGuide() {
+        if (amt_owed > 0d) {
+            return "10% tip ... " + NumberFormat.getCurrencyInstance().format(amt_owed * 0.1d) +
+                    "\n15% tip ... " + NumberFormat.getCurrencyInstance().format(amt_owed * 0.15d) +
+                    "\n20% tip ... " + NumberFormat.getCurrencyInstance().format(amt_owed * 0.2d) + "\n\n";
+        } else { return ""; }
     }
 
 }

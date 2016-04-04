@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,7 +24,7 @@ public class SplitFragment extends Fragment {
     private TextView mPayerCountText, mItemCountText, mResultText;
     private EditText mTaxEdit;
     private Button mPayerListBtn, mItemListBtn, mSplitBtn;
-    private OnButtonPressedListener mListener;
+    private OnSplitButtonPressedListener mListener;
 
     public static SplitFragment newInstance(double tax) {
         SplitFragment fragment = new SplitFragment();
@@ -81,17 +83,10 @@ public class SplitFragment extends Fragment {
 
         String result = "";
         for (Payer p : mApp.getPayers()) {
-            if (p.getAmtOwed() > 0d) {
-                String before_tax = NumberFormat.getCurrencyInstance()
-                        .format(p.getAmtOwed());
-                String after_tax = NumberFormat.getCurrencyInstance()
-                        .format(p.getAmtOwed() * mTax);
-                result += p.getName() + " owes " + after_tax + " (" +
-                        before_tax + " before tax)\n";
-            }
+            result += p.getResult(mTax) + p.getTipGuide();
         }
         if (!result.isEmpty()) {
-            result += "\nDon't forget to tip your server!";
+            result += "Don't forget to tip your server!";
         }
         mResultText.setText(result);
 
@@ -125,7 +120,7 @@ public class SplitFragment extends Fragment {
                     } else {
                         mTax = (tax / 100d) + 1d;
                         mApp.setTax(mTax);
-                        onButtonPressed("item_select");
+                        onSplitButtonPressed();
                     }
                 } catch (NumberFormatException e) {
                     makeToast(R.string.error_tax_invalid);
@@ -154,9 +149,9 @@ public class SplitFragment extends Fragment {
         outState.putDouble(ARG_TAX, mTax);
     }
 
-    public void onButtonPressed(String id) {
+    public void onSplitButtonPressed() {
         if (mListener != null) {
-            mListener.onButtonPressed(id);
+            mListener.onSplitButtonPressed();
         }
     }
 
@@ -164,10 +159,10 @@ public class SplitFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mListener = (OnButtonPressedListener) getActivity();
+            mListener = (OnSplitButtonPressedListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
-                    + " must implement OnButtonPressedListener");
+                    + " must implement OnSplitButtonPressedListener");
         }
     }
 
@@ -177,8 +172,8 @@ public class SplitFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnButtonPressedListener {
-        void onButtonPressed(String id);
+    public interface OnSplitButtonPressedListener {
+        void onSplitButtonPressed();
     }
 
     protected void makeToast(int s) {

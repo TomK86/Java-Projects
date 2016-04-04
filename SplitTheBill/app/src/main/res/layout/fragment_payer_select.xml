@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="24dp"
+    android:padding="24dp"
+    android:background="@color/light_blue"
     tools:context="com.tkelly.splitthebill.PayerSelectFragment">
 
     <TextView

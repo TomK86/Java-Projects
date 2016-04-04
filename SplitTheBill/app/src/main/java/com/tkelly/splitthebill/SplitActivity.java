@@ -1,18 +1,23 @@
 package com.tkelly.splitthebill;
 
+import android.app.Dialog;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import java.util.ArrayList;
 
-public class SplitActivity extends FragmentActivity
-        implements SplitFragment.OnButtonPressedListener,
-        YesNoQueryFragment.OnButtonPressedListener,
+public class SplitActivity extends AppCompatActivity
+        implements SplitFragment.OnSplitButtonPressedListener,
         NumberQueryFragment.OnNumberPickedListener,
         PayerSelectFragment.OnPayerSelectListener,
-        ItemSelectFragment.OnButtonPressedListener,
-        ItemSelectFragment.OnItemSelectListener {
+        ItemSelectFragment.OnItemSelectListener,
+        ItemSelectFragment.OnFinishListener {
 
     private static final String ARG_SELECTED = "selected";
     private static final String ARG_RESELECTED = "reselected";
@@ -20,7 +25,14 @@ public class SplitActivity extends FragmentActivity
     private static final String ARG_CURRENT_QTY = "current_qty";
     private static final String ARG_INPUT_QTY = "input_qty";
 
+    protected static final String ID_SPLIT = "split";
+    protected static final String ID_ITEM_SELECT = "item_select";
+    protected static final String ID_PAYER_SELECT = "payer_select";
+    protected static final String ID_PAYER_RESELECT = "payer_reselect";
+    protected static final String ID_NUMBER_QUERY = "number_query";
+
     private MyApplication mApp;
+    private FragmentManager mMgr;
     private ArrayList<Integer> mSelected, mReselected;
     private int mCurrentItem, mCurrentQty, mInputQty;
 
@@ -28,10 +40,16 @@ public class SplitActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_split);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.title_activity_split);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         mApp = (MyApplication) getApplication();
-        mApp.clearAmtsOwed();
-        mApp.clearCompleted();
+        mMgr = getSupportFragmentManager();
 
         if (savedInstanceState == null) {
             mSelected = new ArrayList<>();
@@ -39,7 +57,11 @@ public class SplitActivity extends FragmentActivity
             mCurrentItem = -1;
             mCurrentQty = 0;
             mInputQty = 0;
-            startFragment("split");
+            mApp.clearAmtsOwed();
+            mApp.clearAllPayments();
+            mApp.clearCompleted();
+            clearBackStack();
+            startFragment(ID_SPLIT);
         } else {
             mSelected = arrayToList(savedInstanceState.getIntArray(ARG_SELECTED));
             mReselected = arrayToList(savedInstanceState.getIntArray(ARG_RESELECTED));
@@ -61,72 +83,32 @@ public class SplitActivity extends FragmentActivity
     }
 
     @Override
-    public void onButtonPressed(String id) {
-        if (findViewById(R.id.fragment_container) != null) {
-            double costPerPayer;
-            Item curItem = null;
-            if (mCurrentItem >= 0) { curItem = mApp.getItem(mCurrentItem); }
-
-            switch (id) {
-                case "split":
-                    startFragment(id);
-                    break;
-                case "item_select":
-                    startFragment(id);
-                    break;
-                case "payer_select":
-                    startFragment(id);
-                    break;
-                case "payer_reselect":
-                    startFragment(id);
-                    break;
-                case "yes_no_query":
-                    startFragment(id);
-                    break;
-                case "number_query":
-                    startFragment(id);
-                    break;
-                case "pay_selected_now":
-                    if (curItem == null) { break; }
-                    costPerPayer = curItem.getCost() * mCurrentQty / mSelected.size();
-                    mApp.updateAmtsOwed(mSelected, costPerPayer);
-                    startFragment("item_select");
-                    break;
-                case "pay_selected_if_obvious":
-                    if (curItem == null) { break; }
-                    if (mCurrentQty == 1 || mSelected.size() == 1) {
-                        costPerPayer = curItem.getCost() * mCurrentQty / mSelected.size();
-                        mApp.updateAmtsOwed(mSelected, costPerPayer);
-                        startFragment("item_select");
-                    } else {
-                        startFragment("yes_no_query");
-                    }
-                    break;
-                case "pay_reselected":
-                    if (curItem == null) { break; }
-                    costPerPayer = curItem.getCost() * mInputQty / mReselected.size();
-                    mApp.updateAmtsOwed(mReselected, costPerPayer);
-                    mCurrentQty -= mInputQty;
-                    if (mCurrentQty == 0) {
-                        mInputQty = 0;
-                        startFragment("item_select");
-                    } else {
-                        startFragment("number_query");
-                    }
-                    break;
-                case "finish":
-                    mCurrentItem = -1;
-                    mCurrentQty = 0;
-                    mInputQty = 0;
-                    mSelected.clear();
-                    mReselected.clear();
-                    clearBackStack();
-                    startFragment("split");
-                    break;
-                default:
-                    break;
-            }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (mMgr.getBackStackEntryCount() > 1) {
+                    mMgr.popBackStack();
+                    return true;
+                } else {
+                    return super.onOptionsItemSelected(item);
+                }
+            default:
+                return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onSplitButtonPressed() {
+        mCurrentItem = -1;
+        mCurrentQty = 0;
+        mInputQty = 0;
+        startFragment(ID_ITEM_SELECT);
+    }
+
+    @Override
+    public void onNumberPicked(int n) {
+        mInputQty = n;
+        startFragment(ID_PAYER_RESELECT);
     }
 
     @Override
@@ -136,30 +118,39 @@ public class SplitActivity extends FragmentActivity
             for (int i = 0; i < checked.length; i++) {
                 if (checked[i]) { mSelected.add(i); }
             }
-            onButtonPressed("pay_selected_if_obvious");
+            paySelectedIfOk();
         } else {
             mReselected.clear();
             for (int i = 0; i < checked.length; i++) {
                 if (checked[i]) { mReselected.add(mSelected.get(i)); }
             }
-            onButtonPressed("pay_reselected");
+            payReselected();
         }
     }
 
     @Override
     public void onItemSelect(int idx) {
+        Item item = mApp.getItem(idx);
         mCurrentItem = idx;
-        mCurrentQty = mApp.getItem(idx).getQty();
-        startFragment("payer_select");
+        mCurrentQty = item.getQty();
+        item.setCompleted(false);
+        item.clearPayments();
+        startFragment(ID_PAYER_SELECT);
     }
 
     @Override
-    public void onNumberPicked(int n) {
-        mInputQty = n;
-        startFragment("payer_reselect");
+    public void onFinish() {
+        mCurrentItem = -1;
+        mCurrentQty = 0;
+        mInputQty = 0;
+        mSelected.clear();
+        mReselected.clear();
+        mApp.updateAmtsOwed();
+        clearBackStack();
+        startFragment(ID_SPLIT);
     }
 
-    public void startFragment(String fragment_id) {
+    protected void startFragment(String fragment_id) {
         if (findViewById(R.id.fragment_container) != null) {
             String query;
             Resources res = getResources();
@@ -167,42 +158,37 @@ public class SplitActivity extends FragmentActivity
             if (mCurrentItem >= 0) { curItem = mApp.getItem(mCurrentItem); }
 
             switch (fragment_id) {
-                case "split":
+                case ID_SPLIT:
                     SplitFragment split = SplitFragment.newInstance(mApp.getTax());
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, split)
-                            .addToBackStack(null).commit();
+                    mMgr.beginTransaction()
+                            .replace(R.id.fragment_container, split, fragment_id)
+                            .addToBackStack(fragment_id)
+                            .commit();
                     break;
-                case "item_select":
-                    if (curItem == null) {
-                        mApp.clearAmtsOwed();
-                        mApp.clearCompleted();
-                    } else {
-                        curItem.setCompleted(true);
-                    }
-                    mCurrentQty = 0;
-                    mInputQty = 0;
+                case ID_ITEM_SELECT:
                     if (mCurrentItem == -1) {
                         query = res.getString(R.string.query_item_select_first);
                     } else {
                         query = res.getString(R.string.query_item_select_next);
                     }
                     ItemSelectFragment item_select = ItemSelectFragment.newInstance(query);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, item_select)
-                            .addToBackStack(null).commit();
+                    mMgr.beginTransaction()
+                            .replace(R.id.fragment_container, item_select, fragment_id)
+                            .addToBackStack(fragment_id)
+                            .commit();
                     break;
-                case "payer_select":
+                case ID_PAYER_SELECT:
                     if (curItem == null) { break; }
                     query = String.format(res.getString(R.string.query_payer_select),
                             curItem.getName());
                     PayerSelectFragment payer_select = PayerSelectFragment.newInstance(query,
                             new int[0], true);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, payer_select)
-                            .addToBackStack(null).commit();
+                    mMgr.beginTransaction()
+                            .replace(R.id.fragment_container, payer_select, fragment_id)
+                            .addToBackStack(fragment_id)
+                            .commit();
                     break;
-                case "payer_reselect":
+                case ID_PAYER_RESELECT:
                     if (curItem == null) { break; }
                     if (mInputQty == 1) {
                         query = String.format(res.getString(R.string.query_payer_reselect_one),
@@ -213,27 +199,20 @@ public class SplitActivity extends FragmentActivity
                     }
                     PayerSelectFragment payer_reselect = PayerSelectFragment.newInstance(query,
                             listToArray(mSelected), false);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, payer_reselect)
-                            .addToBackStack(null).commit();
+                    mMgr.beginTransaction()
+                            .add(R.id.fragment_container, payer_reselect, fragment_id)
+                            .addToBackStack(fragment_id)
+                            .commit();
                     break;
-                case "yes_no_query":
-                    if (curItem == null) { break; }
-                    query = String.format(res.getString(R.string.query_yes_no), curItem.getQty(),
-                            curItem.getName(), mSelected.size());
-                    YesNoQueryFragment yes_no_query = YesNoQueryFragment.newInstance(query);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, yes_no_query)
-                            .addToBackStack(null).commit();
-                    break;
-                case "number_query":
+                case ID_NUMBER_QUERY:
                     if (curItem == null) { break; }
                     query = String.format(res.getString(R.string.query_number), curItem.getName());
                     NumberQueryFragment number_query = NumberQueryFragment.newInstance(query,
                             mCurrentQty, mCurrentItem);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, number_query)
-                            .addToBackStack(null).commit();
+                    mMgr.beginTransaction()
+                            .add(R.id.fragment_container, number_query, fragment_id)
+                            .addToBackStack(fragment_id)
+                            .commit();
                     break;
                 default:
                     break;
@@ -241,14 +220,88 @@ public class SplitActivity extends FragmentActivity
         }
     }
 
-    public void clearBackStack() {
-        FragmentManager fm = getSupportFragmentManager();
-        for(int i = 0; i < fm.getBackStackEntryCount(); i++) {
-            fm.popBackStack();
+    protected void paySelected() {
+        if (mCurrentItem >= 0) {
+            Item curItem = mApp.getItem(mCurrentItem);
+            double costPerPayer = curItem.getCost() * mCurrentQty / mSelected.size();
+            for (int i = 0; i < mSelected.size(); i++) {
+                curItem.addPayment(mSelected.get(i), costPerPayer);
+            }
+            curItem.setCompleted(true);
+            mCurrentQty = 0;
+            mInputQty = 0;
+            startFragment(ID_ITEM_SELECT);
         }
     }
 
-    public int[] listToArray(ArrayList<Integer> list) {
+    protected void paySelectedIfOk() {
+        if (mCurrentItem >= 0) {
+            Item curItem = mApp.getItem(mCurrentItem);
+            curItem.clearPayments();
+            mCurrentQty = curItem.getQty();
+            if (mCurrentQty == 1 || mSelected.size() == 1) {
+                paySelected();
+            } else if (mCurrentQty == 2 && mSelected.size() == 2) {
+                paySelected();
+            } else {
+                final Dialog dialog = new Dialog(SplitActivity.this);
+                dialog.setContentView(R.layout.dialog_confirm);
+                dialog.setTitle("Split evenly?");
+                dialog.setCancelable(true);
+
+                TextView query_text = (TextView) dialog.findViewById(R.id.query_text);
+                String query = String.format(getResources().getString(R.string.query_even_split),
+                        curItem.getQty(), curItem.getName(), mSelected.size());
+                query_text.setText(query);
+
+                Button yes_btn = (Button) dialog.findViewById(R.id.yes_btn);
+                yes_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        paySelected();
+                    }
+                });
+
+                Button no_btn = (Button) dialog.findViewById(R.id.no_btn);
+                no_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        startFragment(ID_NUMBER_QUERY);
+                    }
+                });
+
+                dialog.show();
+            }
+        }
+    }
+
+    protected void payReselected() {
+        if (mCurrentItem >= 0) {
+            Item curItem = mApp.getItem(mCurrentItem);
+            double costPerPayer = curItem.getCost() * mInputQty / mReselected.size();
+            for (int i = 0; i < mReselected.size(); i++) {
+                curItem.addPayment(mReselected.get(i), costPerPayer);
+            }
+            mCurrentQty -= mInputQty;
+            if (mCurrentQty == 0) {
+                curItem.setCompleted(true);
+                mInputQty = 0;
+                startFragment(ID_ITEM_SELECT);
+            } else {
+                startFragment(ID_NUMBER_QUERY);
+            }
+        }
+    }
+
+    protected void clearBackStack() {
+        while (mMgr.getBackStackEntryCount() > 0) {
+            mMgr.popBackStackImmediate();
+        }
+    }
+
+    protected int[] listToArray(ArrayList<Integer> list) {
         int[] array = new int[list.size()];
         for (int i = 0; i < list.size(); i++) {
             array[i] = list.get(i);
@@ -256,7 +309,7 @@ public class SplitActivity extends FragmentActivity
         return array;
     }
 
-    public ArrayList<Integer> arrayToList(int[] array) {
+    protected ArrayList<Integer> arrayToList(int[] array) {
         ArrayList<Integer> list = new ArrayList<>();
         if (array != null) {
             for (int i : array) {

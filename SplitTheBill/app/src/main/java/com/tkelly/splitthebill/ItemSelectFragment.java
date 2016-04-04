@@ -17,7 +17,7 @@ public class ItemSelectFragment extends Fragment {
 
     private String mQuery;
     private OnItemSelectListener mSelectListener;
-    private OnButtonPressedListener mButtonListener;
+    private OnFinishListener mFinishListener;
     private ListView mListView;
     private ItemSelectAdapter mAdapter;
     private TextView mQueryText;
@@ -93,7 +93,7 @@ public class ItemSelectFragment extends Fragment {
         mSubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onButtonPressed("finish");
+                onFinish();
             }
         });
     }
@@ -109,7 +109,7 @@ public class ItemSelectFragment extends Fragment {
         super.onAttach(context);
         try {
             mSelectListener = (OnItemSelectListener) getActivity();
-            mButtonListener = (OnButtonPressedListener) getActivity();
+            mFinishListener = (OnFinishListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
                     + " must implement OnItemSelectListener and OnButtonPressedListener");
@@ -120,7 +120,7 @@ public class ItemSelectFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mSelectListener = null;
-        mButtonListener = null;
+        mFinishListener = null;
     }
 
     public void onItemSelect(int idx) {
@@ -129,9 +129,9 @@ public class ItemSelectFragment extends Fragment {
         }
     }
 
-    public void onButtonPressed(String id) {
-        if (mButtonListener != null) {
-            mButtonListener.onButtonPressed(id);
+    public void onFinish() {
+        if (mFinishListener != null) {
+            mFinishListener.onFinish();
         }
     }
 
@@ -139,8 +139,8 @@ public class ItemSelectFragment extends Fragment {
         void onItemSelect(int idx);
     }
 
-    public interface OnButtonPressedListener {
-        void onButtonPressed(String id);
+    public interface OnFinishListener {
+        void onFinish();
     }
 
 }

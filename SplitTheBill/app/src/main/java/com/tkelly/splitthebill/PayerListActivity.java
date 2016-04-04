@@ -1,9 +1,10 @@
 package com.tkelly.splitthebill;
 
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -12,12 +13,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PayerListActivity extends ListActivity {
+public class PayerListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payer_list);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.title_activity_payer_list);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         final PayerListAdapter adapter = new PayerListAdapter(getApplicationContext(),
                 R.layout.content_payer_row, ((MyApplication) getApplication()).getPayers());
@@ -34,7 +42,9 @@ public class PayerListActivity extends ListActivity {
                 dialog.setCancelable(true);
 
                 TextView query_text = (TextView) dialog.findViewById(R.id.query_text);
-                query_text.setText(R.string.confirm_remove_payer);
+                String query = String.format(getResources().getString(R.string.confirm_remove_payer),
+                        adapter.getItem(idx).getName());
+                query_text.setText(query);
 
                 Button yes_btn = (Button) dialog.findViewById(R.id.yes_btn);
                 yes_btn.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +73,7 @@ public class PayerListActivity extends ListActivity {
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(PayerListActivity.this);
                 dialog.setContentView(R.layout.dialog_add_payer);
-                dialog.setTitle("Add a new payer");
+                dialog.setTitle("Add a new party member");
                 dialog.setCancelable(true);
 
                 final EditText name_edit = (EditText) dialog.findViewById(R.id.name_edit);

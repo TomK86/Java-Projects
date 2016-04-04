@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" >
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/light_blue">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,18 +18,18 @@
             style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:gravity="center"
             android:weightSum="12" >
 
             <Button
-                style="?android:attr/buttonBarButtonStyle"
+                style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/payer_list_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
+                android:textColor="@color/colorPrimary"
                 android:text="@string/btn_payer_list" />
 
             <TextView
@@ -37,11 +38,12 @@
                 android:layout_weight="4" />
 
             <Button
-                style="?android:attr/buttonBarButtonStyle"
+                style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/item_list_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
+                android:textColor="@color/colorPrimary"
                 android:text="@string/btn_item_list" />
 
         </TableRow>
@@ -110,12 +112,13 @@
         </TableRow>
 
         <Button
-            style="?android:attr/buttonBarButtonStyle"
+            style="?android:attr/borderlessButtonStyle"
             android:id="@+id/split_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
+            android:textColor="@color/colorPrimary"
             android:text="@string/btn_split" />
 
         <TextView
@@ -124,9 +127,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:lineSpacingExtra="5dp"
-            android:textColor="@color/green"
-            android:textSize="16sp" />
+            android:gravity="center"
+            android:textColor="@color/green" />
 
     </LinearLayout>
 

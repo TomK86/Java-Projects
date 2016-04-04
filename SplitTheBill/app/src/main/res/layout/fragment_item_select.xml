@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="24dp"
+    android:padding="24dp"
+    android:background="@color/light_blue"
     tools:context="com.tkelly.splitthebill.ItemSelectFragment">
 
     <TextView
@@ -29,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/green"
+        android:textColor="@color/colorPrimary"
         android:text="@string/btn_finish" />
 
 </RelativeLayout>

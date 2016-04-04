@@ -1,9 +1,10 @@
 package com.tkelly.splitthebill;
 
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,12 +15,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.text.ParseException;
 
-public class ItemListActivity extends ListActivity {
+public class ItemListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.title_activity_item_list);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         final ItemListAdapter adapter = new ItemListAdapter(getApplicationContext(),
                 R.layout.content_item_row, ((MyApplication) getApplication()).getItems());
@@ -36,7 +44,9 @@ public class ItemListActivity extends ListActivity {
                 dialog.setCancelable(true);
 
                 TextView query_text = (TextView) dialog.findViewById(R.id.query_text);
-                query_text.setText(R.string.confirm_remove_item);
+                String query = String.format(getResources().getString(R.string.confirm_remove_item),
+                        adapter.getItem(idx).getName());
+                query_text.setText(query);
 
                 Button yes_btn = (Button) dialog.findViewById(R.id.yes_btn);
                 yes_btn.setOnClickListener(new View.OnClickListener() {
