@@ -21,7 +21,7 @@ public class PayerSelectAdapter extends ArrayAdapter<Payer> {
         mContext = context;
         mResId = resource;
         mPayers = payers;
-        mChecked = new boolean[mPayers.size()];
+        mChecked = new boolean[payers.size()];
     }
 
     @Override

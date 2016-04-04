@@ -57,17 +57,17 @@ public class PayerSelectFragment extends Fragment {
             mInit = savedInstanceState.getBoolean(ARG_INIT);
         }
 
-        if (mDisplayed == null || mDisplayed.length == 0) {
-            mDisplayed = app.getAllPayerIndices();
+        if (mInit || mDisplayed == null || mDisplayed.length == 0) {
+            mAdapter = new PayerSelectAdapter(getContext(),
+                    R.layout.content_payer_select_row, app.getPayers());
+        } else {
+            ArrayList<Payer> displayed_payers = new ArrayList<>();
+            for (int idx : mDisplayed) {
+                displayed_payers.add(app.getPayer(idx));
+            }
+            mAdapter = new PayerSelectAdapter(getContext(),
+                    R.layout.content_payer_select_row, displayed_payers);
         }
-
-        ArrayList<Payer> displayed_payers = new ArrayList<>();
-        for (int idx : mDisplayed) {
-            displayed_payers.add(app.getPayer(idx));
-        }
-
-        mAdapter = new PayerSelectAdapter(getContext(),
-                R.layout.content_payer_select_row, displayed_payers);
     }
 
     @Override
