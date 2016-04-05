@@ -10,7 +10,7 @@ Has this ever happened to you?  It's happened to me many times, so I decided to 
 
 ### How to Use
 
-All you need is your bill and your phone!  You can either split the entire bill evenly among all of your party members, or you can go through each line item and select one or more party members to pay for it.  You can even split an individual line item up so that party members only pay for the quantity they are responsible for!
+All you need is your bill and your Android mobile device!  You can either split the entire bill evenly among all of your party members, or you can go through each line item and select one or more party members to pay for it.  You can even split an individual line item up so that party members only pay for the quantity they are responsible for!
 
 ##### Split a Bill Evenly
 
