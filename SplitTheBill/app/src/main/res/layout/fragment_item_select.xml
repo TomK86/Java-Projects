@@ -8,14 +8,10 @@
     tools:context="com.tkelly.splitthebill.ItemSelectFragment">
 
     <TextView
+        style="@style/QueryText"
         android:id="@+id/query_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:textSize="18sp" />
+        android:layout_alignParentTop="true" />
 
     <ListView android:id="@android:id/list"
         android:layout_width="match_parent"
@@ -24,13 +20,11 @@
         android:layout_above="@id/submit_btn"/>
 
     <Button
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/BigButton"
         android:id="@+id/submit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/colorPrimary"
         android:text="@string/btn_finish" />
 
 </RelativeLayout>

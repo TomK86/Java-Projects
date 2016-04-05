@@ -10,6 +10,12 @@ import android.widget.TextView;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+/**
+ * A custom ArrayAdapter which updates the list in ItemSelectFragment
+ *
+ * @see ItemSelectFragment
+ * @see ItemSelectViewHolder
+ */
 public class ItemSelectAdapter extends ArrayAdapter<Item> {
 
     private ArrayList<Item> mItems;

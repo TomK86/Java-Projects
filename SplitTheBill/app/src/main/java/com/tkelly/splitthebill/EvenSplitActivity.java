@@ -3,14 +3,19 @@ package com.tkelly.splitthebill;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
+/**
+ * An activity which allows the user to split a bill evenly among all of the party members.
+ */
 public class EvenSplitActivity extends AppCompatActivity {
 
     @Override
@@ -32,17 +37,22 @@ public class EvenSplitActivity extends AppCompatActivity {
         payers_edit.setMaxValue(100);
 
         Button submit_btn = (Button) findViewById(R.id.submit_btn);
+        submit_btn.setActivated(true);
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     double amount = total_edit.getTextAsDouble() / payers_edit.getValue();
-                    String result = "Each person owes " + NumberFormat.getCurrencyInstance().format(amount) +
-                            "\n10% tip ... " + NumberFormat.getCurrencyInstance().format(amount * 0.1d) +
-                            "\n15% tip ... " + NumberFormat.getCurrencyInstance().format(amount * 0.15d) +
-                            "\n20% tip ... " + NumberFormat.getCurrencyInstance().format(amount * 0.2d) +
-                            "\n\nDon't forget to tip your server!";
-                    result_text.setText(result);
+                    if (amount == 0d) {
+                        makeToast(R.string.error_total_zero);
+                    } else {
+                        String result = "Each person owes " + NumberFormat.getCurrencyInstance().format(amount) +
+                                "\n10% tip ... " + NumberFormat.getCurrencyInstance().format(amount * 0.1d) +
+                                "\n15% tip ... " + NumberFormat.getCurrencyInstance().format(amount * 0.15d) +
+                                "\n20% tip ... " + NumberFormat.getCurrencyInstance().format(amount * 0.2d) +
+                                "\n\nDon't forget to tip your server!";
+                        result_text.setText(result);
+                    }
                 } catch (ParseException e) {
                     makeToast(R.string.error_currency_format);
                 }
@@ -51,9 +61,11 @@ public class EvenSplitActivity extends AppCompatActivity {
     }
 
     protected void makeToast(int s) {
-        Toast.makeText(getApplicationContext(),
-                getResources().getString(s),
-                Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(getApplicationContext(),
+                getResources().getString(s), Toast.LENGTH_SHORT);
+        TextView toastText = (TextView) ((LinearLayout) toast.getView()).getChildAt(0);
+        toastText.setGravity(Gravity.CENTER_HORIZONTAL);
+        toast.show();
     }
 
 }

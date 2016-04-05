@@ -61,6 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
+                android:textColor="@color/gray"
                 android:textSize="12sp" />
 
             <TextView
@@ -73,6 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
+                android:textColor="@color/gray"
                 android:textSize="12sp" />
 
         </TableRow>
@@ -91,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:textSize="18sp"
+                android:textColor="@color/black"
                 android:text="@string/tax_label" />
 
             <EditText
@@ -100,25 +103,25 @@
                 android:layout_weight="6"
                 android:inputType="numberDecimal"
                 android:gravity="end"
+                android:textColor="@color/black"
+                android:textColorHint="@color/light_gray"
                 android:hint="@string/tax_hint" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:text="@string/pct" />
 
         </TableRow>
 
         <Button
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/BigButton"
             android:id="@+id/split_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            android:textColor="@color/colorPrimary"
             android:text="@string/btn_split" />
 
         <TextView

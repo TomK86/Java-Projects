@@ -9,6 +9,12 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import java.util.ArrayList;
 
+/**
+ * A custom ArrayAdapter which updates the list in PayerSelectFragment
+ *
+ * @see PayerSelectFragment
+ * @see PayerSelectViewHolder
+ */
 public class PayerSelectAdapter extends ArrayAdapter<Payer> {
 
     private ArrayList<Payer> mPayers;

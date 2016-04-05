@@ -9,6 +9,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
+/**
+ * A custom ArrayAdapter which updates the list in PayerListActivity
+ *
+ * @see PayerListActivity
+ */
 public class PayerListAdapter extends ArrayAdapter<Payer> {
 
     public PayerListAdapter(Context context, int resource, List<Payer> items) {

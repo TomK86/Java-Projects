@@ -8,6 +8,14 @@ import android.widget.EditText;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
+/**
+ * An extension of EditText that automatically formats the displayed text with NumberFormat
+ * local currency formatting.  Uses CurrencyWatcher to listen for text changes and update as
+ * necessary.
+ *
+ * @see CurrencyWatcher
+ * @see java.text.NumberFormat
+ */
 public class EditCurrency extends EditText {
 
     public EditCurrency(Context context) {
@@ -25,6 +33,12 @@ public class EditCurrency extends EditText {
         init();
     }
 
+    /**
+     * A method to get the currency-formatted text in the field as a double value
+     *
+     * @return The double value of the text in the EditCurrency field
+     * @throws ParseException If the text in the EditCurrency field is not currency-formatted
+     */
     public double getTextAsDouble() throws ParseException {
         String s = getText().toString();
         return NumberFormat.getCurrencyInstance().parse(s).doubleValue();

@@ -6,11 +6,8 @@
     android:gravity="center">
 
     <TextView
-        android:id="@+id/query_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center" />
+        style="@style/QueryText"
+        android:id="@+id/query_text" />
 
     <NumberPicker
         android:id="@+id/qty_picker"
@@ -30,6 +27,7 @@
         android:layout_below="@id/qty_picker"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:textColor="@color/colorPrimary"
         android:text="@string/btn_next" />
 
 </RelativeLayout>

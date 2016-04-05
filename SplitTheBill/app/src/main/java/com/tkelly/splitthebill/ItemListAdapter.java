@@ -10,6 +10,11 @@ import android.widget.TextView;
 import java.text.NumberFormat;
 import java.util.List;
 
+/**
+ * A custom ArrayAdapter which updates the list in ItemListActivity
+ *
+ * @see ItemListActivity
+ */
 public class ItemListAdapter extends ArrayAdapter<Item> {
 
     public ItemListAdapter(Context context, int resource, List<Item> items) {

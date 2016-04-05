@@ -7,6 +7,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * The main activity, which allows the user to access either EvenSplitActivity or SplitActivity
+ *
+ * @see EvenSplitActivity
+ * @see SplitActivity
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -33,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
         split_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SplitActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getApplicationContext(), SplitActivity.class));
             }
         });
     }

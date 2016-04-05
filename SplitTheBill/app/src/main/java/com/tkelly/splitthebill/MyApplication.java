@@ -51,6 +51,15 @@ public class MyApplication extends Application {
     public boolean payersIsEmpty() { return payers.isEmpty(); }
     public boolean itemsIsEmpty() { return items.isEmpty(); }
 
+    // Check if all items are marked completed
+    public boolean allItemsAreCompleted() {
+        boolean all_items_completed = true;
+        for (Item item : items) {
+            all_items_completed &= item.isCompleted();
+        }
+        return all_items_completed;
+    }
+
     // Set the sales tax percentage
     public void setTax(double new_tax) { tax = new_tax; }
 

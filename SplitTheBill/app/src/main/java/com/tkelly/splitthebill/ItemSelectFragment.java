@@ -3,14 +3,28 @@ package com.tkelly.splitthebill;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+/**
+ * A fragment hosted by SplitActivity which allows the user to select an item from their bill.
+ * When an item is selected, the onItemSelect method implemented by SplitActivity is called.
+ * When all items are marked complete, the "Finish" button becomes activated. Clicking this
+ * button calls the onFinish method implemented by SplitActivity.
+ *
+ * @see SplitActivity
+ * @see ItemSelectAdapter
+ * @see ItemSelectViewHolder
+ */
 public class ItemSelectFragment extends Fragment {
 
     private static final String ARG_QUERY = "query";
@@ -70,17 +84,11 @@ public class ItemSelectFragment extends Fragment {
 
         mQueryText.setText(mQuery);
 
-        boolean all_items_complete = true;
-        for (Item item : app.getItems()) {
-            all_items_complete &= item.isCompleted();
-        }
-
-        if (all_items_complete) {
-            mSubmitBtn.setClickable(true);
-            mSubmitBtn.setVisibility(View.VISIBLE);
+        mSubmitBtn.setActivated(app.allItemsAreCompleted());
+        if (mSubmitBtn.isActivated()) {
+            mSubmitBtn.setTextColor(ContextCompat.getColor(getContext(), R.color.light_blue));
         } else {
-            mSubmitBtn.setClickable(false);
-            mSubmitBtn.setVisibility(View.GONE);
+            mSubmitBtn.setTextColor(ContextCompat.getColor(getContext(), R.color.gray));
         }
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -93,7 +101,11 @@ public class ItemSelectFragment extends Fragment {
         mSubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFinish();
+                if (mSubmitBtn.isActivated()) {
+                    onFinish();
+                } else {
+                    makeToast(R.string.finish_disabled);
+                }
             }
         });
     }
@@ -112,7 +124,7 @@ public class ItemSelectFragment extends Fragment {
             mFinishListener = (OnFinishListener) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
-                    + " must implement OnItemSelectListener and OnButtonPressedListener");
+                    + " must implement OnItemSelectListener and OnFinishListener");
         }
     }
 
@@ -141,6 +153,14 @@ public class ItemSelectFragment extends Fragment {
 
     public interface OnFinishListener {
         void onFinish();
+    }
+
+    protected void makeToast(int s) {
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                getResources().getString(s), Toast.LENGTH_LONG);
+        TextView toastText = (TextView) ((LinearLayout) toast.getView()).getChildAt(0);
+        toastText.setGravity(Gravity.CENTER_HORIZONTAL);
+        toast.show();
     }
 
 }

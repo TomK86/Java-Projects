@@ -5,14 +5,21 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * An activity which allows the user to add and remove members from their party
+ *
+ * @see PayerListAdapter
+ */
 public class PayerListActivity extends AppCompatActivity {
 
     @Override
@@ -97,16 +104,12 @@ public class PayerListActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-    }
-
     protected void makeToast(int s) {
-        Toast.makeText(getApplicationContext(),
-                getResources().getString(s),
-                Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(getApplicationContext(),
+                getResources().getString(s), Toast.LENGTH_SHORT);
+        TextView toastText = (TextView) ((LinearLayout) toast.getView()).getChildAt(0);
+        toastText.setGravity(Gravity.CENTER_HORIZONTAL);
+        toast.show();
     }
 
 }

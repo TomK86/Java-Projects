@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -12,6 +13,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import java.util.ArrayList;
 
+/**
+ * An activity which allows the user to split up a bill by line item.  This activity hosts a
+ * chain of fragments that allows the user to do a number of things:
+ *  - Start PayerListActivity to add/remove members from their party (SplitFragment)
+ *  - Start ItemListActivity to add/remove list items from their bill (SplitFragment)
+ *  - Select a line item to assign payments to (ItemSelectFragment)
+ *  - Select one or more party members to pay for a selected line item (PayerSelectFragment)
+ *  - Choose a partial quantity of the selected line item to assign payments to (NumberQueryFragment)
+ *
+ *  @see SplitFragment
+ *  @see ItemSelectFragment
+ *  @see PayerSelectFragment
+ *  @see NumberQueryFragment
+ */
 public class SplitActivity extends AppCompatActivity
         implements SplitFragment.OnSplitButtonPressedListener,
         NumberQueryFragment.OnNumberPickedListener,
@@ -83,6 +98,15 @@ public class SplitActivity extends AppCompatActivity
     }
 
     @Override
+    public void onBackPressed() {
+        if (mMgr.getBackStackEntryCount() > 1) {
+            mMgr.popBackStack();
+        } else {
+            NavUtils.navigateUpFromSameTask(this);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -97,6 +121,9 @@ public class SplitActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Callback method for SplitFragment - called when the user presses the "Split" button
+     */
     @Override
     public void onSplitButtonPressed() {
         mCurrentItem = -1;
@@ -105,12 +132,24 @@ public class SplitActivity extends AppCompatActivity
         startFragment(ID_ITEM_SELECT);
     }
 
+    /**
+     * Callback method for NumberQueryFragment - called when the user presses the "Next" button
+     *
+     * @param n The number chosen by the user
+     */
     @Override
     public void onNumberPicked(int n) {
         mInputQty = n;
         startFragment(ID_PAYER_RESELECT);
     }
 
+    /**
+     * Callback method for PayerSelectFragment - called when the user presses the "Next" button
+     *
+     * @param checked The boolean status of the CheckBoxes next to each of the listed payers
+     * @param init If true, checked represents all of the party members; If false, checked
+     *             represents only the previously-selected party members
+     */
     @Override
     public void onPayerSelect(boolean[] checked, boolean init) {
         if (init) {
@@ -128,6 +167,11 @@ public class SplitActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Callback method for ItemSelectFragment - called when the user selects a line item
+     *
+     * @param idx The index of the selected line item
+     */
     @Override
     public void onItemSelect(int idx) {
         Item item = mApp.getItem(idx);
@@ -138,6 +182,9 @@ public class SplitActivity extends AppCompatActivity
         startFragment(ID_PAYER_SELECT);
     }
 
+    /**
+     * Callback method for ItemSelectFragment - called when the user presses the "Finish" button
+     */
     @Override
     public void onFinish() {
         mCurrentItem = -1;
@@ -150,6 +197,11 @@ public class SplitActivity extends AppCompatActivity
         startFragment(ID_SPLIT);
     }
 
+    /**
+     * Method to add a specified fragment to the activity's fragment container
+     *
+     * @param fragment_id The ID string of the fragment to start
+     */
     protected void startFragment(String fragment_id) {
         if (findViewById(R.id.fragment_container) != null) {
             String query;
@@ -166,7 +218,9 @@ public class SplitActivity extends AppCompatActivity
                             .commit();
                     break;
                 case ID_ITEM_SELECT:
-                    if (mCurrentItem == -1) {
+                    if (mApp.allItemsAreCompleted()) {
+                        query = res.getString(R.string.query_item_select_done);
+                    } else if (mCurrentItem == -1) {
                         query = res.getString(R.string.query_item_select_first);
                     } else {
                         query = res.getString(R.string.query_item_select_next);
@@ -220,12 +274,16 @@ public class SplitActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Method to assign payment for the selected line item evenly among the party members
+     * in mSelected
+     */
     protected void paySelected() {
         if (mCurrentItem >= 0) {
             Item curItem = mApp.getItem(mCurrentItem);
             double costPerPayer = curItem.getCost() * mCurrentQty / mSelected.size();
-            for (int i = 0; i < mSelected.size(); i++) {
-                curItem.addPayment(mSelected.get(i), costPerPayer);
+            for (int payerIdx : mSelected) {
+                curItem.addPayment(payerIdx, costPerPayer);
             }
             curItem.setCompleted(true);
             mCurrentQty = 0;
@@ -234,14 +292,18 @@ public class SplitActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Method which calls the paySelected method if the user has selected only one party
+     * member to pay for the selected line item, or if the user indicates that they want to
+     * split the payment for the selected line item evenly among the selected party members.
+     * Otherwise, an instance of NumberQueryFragment is started.
+     */
     protected void paySelectedIfOk() {
         if (mCurrentItem >= 0) {
             Item curItem = mApp.getItem(mCurrentItem);
             curItem.clearPayments();
             mCurrentQty = curItem.getQty();
-            if (mCurrentQty == 1 || mSelected.size() == 1) {
-                paySelected();
-            } else if (mCurrentQty == 2 && mSelected.size() == 2) {
+            if (mSelected.size() == 1) {
                 paySelected();
             } else {
                 final Dialog dialog = new Dialog(SplitActivity.this);
@@ -268,7 +330,12 @@ public class SplitActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
-                        startFragment(ID_NUMBER_QUERY);
+                        if (mCurrentQty == 1) {
+                            mInputQty = 1;
+                            startFragment(ID_PAYER_RESELECT);
+                        } else {
+                            startFragment(ID_NUMBER_QUERY);
+                        }
                     }
                 });
 
@@ -277,12 +344,16 @@ public class SplitActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Method to assign payment for the user-indicated quantity of the selected line item
+     * evenly among the party members in mReselected
+     */
     protected void payReselected() {
         if (mCurrentItem >= 0) {
             Item curItem = mApp.getItem(mCurrentItem);
             double costPerPayer = curItem.getCost() * mInputQty / mReselected.size();
-            for (int i = 0; i < mReselected.size(); i++) {
-                curItem.addPayment(mReselected.get(i), costPerPayer);
+            for (int payerIdx : mReselected) {
+                curItem.addPayment(payerIdx, costPerPayer);
             }
             mCurrentQty -= mInputQty;
             if (mCurrentQty == 0) {
@@ -295,12 +366,21 @@ public class SplitActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Method to clear the fragment back stack
+     */
     protected void clearBackStack() {
         while (mMgr.getBackStackEntryCount() > 0) {
             mMgr.popBackStackImmediate();
         }
     }
 
+    /**
+     * Method to convert an ArrayList of Integer objects into an array of primitive ints
+     *
+     * @param list The ArrayList of Integers to convert
+     * @return The converted array of ints
+     */
     protected int[] listToArray(ArrayList<Integer> list) {
         int[] array = new int[list.size()];
         for (int i = 0; i < list.size(); i++) {
@@ -309,6 +389,12 @@ public class SplitActivity extends AppCompatActivity
         return array;
     }
 
+    /**
+     * Method to convert an array of primitive ints into an ArrayList of Integer objects
+     *
+     * @param array The array of ints to convert
+     * @return The converted ArrayList of Integers
+     */
     protected ArrayList<Integer> arrayToList(int[] array) {
         ArrayList<Integer> list = new ArrayList<>();
         if (array != null) {

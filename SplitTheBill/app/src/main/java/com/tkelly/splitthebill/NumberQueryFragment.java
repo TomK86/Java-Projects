@@ -10,6 +10,12 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+/**
+ * A fragment hosted by SplitActivity which allows the user to select a number of items to
+ * assign payment to, then calls the onNumberPicked method implemented by SplitActivity
+ *
+ * @see SplitActivity
+ */
 public class NumberQueryFragment extends Fragment {
 
     private static final String ARG_QUERY = "query";

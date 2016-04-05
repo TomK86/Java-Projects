@@ -3,15 +3,29 @@ package com.tkelly.splitthebill;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
+/**
+ * A fragment hosted by SplitActivity which allows the user to select one or more members from
+ * their party.  This fragment has two modes determined by the value of mInit: If mInit is true,
+ * the entire list of party members will be displayed. If mInit is false, only the list of
+ * previously-selected party members will be displayed. Pressing the "Next" button calls the
+ * onPayerSelect method implemented by SplitActivity, if at least one party member has been
+ * selected.
+ *
+ * @see SplitActivity
+ * @see PayerSelectAdapter
+ * @see PayerSelectViewHolder
+ */
 public class PayerSelectFragment extends Fragment {
 
     private static final String ARG_QUERY = "query";
@@ -135,14 +149,16 @@ public class PayerSelectFragment extends Fragment {
         mListener.onPayerSelect(checked, mInit);
     }
 
-    protected void makeToast(int s) {
-        Toast.makeText(getActivity().getApplicationContext(),
-                getResources().getString(s),
-                Toast.LENGTH_SHORT).show();
-    }
-
     public interface OnPayerSelectListener {
         void onPayerSelect(boolean[] checked, boolean init);
+    }
+
+    protected void makeToast(int s) {
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                getResources().getString(s), Toast.LENGTH_SHORT);
+        TextView toastText = (TextView) ((LinearLayout) toast.getView()).getChildAt(0);
+        toastText.setGravity(Gravity.CENTER_HORIZONTAL);
+        toast.show();
     }
 
 }

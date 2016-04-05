@@ -7,6 +7,14 @@ import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
+/**
+ * A custom TextWatcher that listens for changes to text in an EditCurrency field.
+ * When a change occurs, CurrencyWatcher automatically converts the new text to
+ * NumberFormat local currency formatting and sets the cursor to the end position.
+ *
+ * @see EditCurrency
+ * @see java.text.NumberFormat
+ */
 public class CurrencyWatcher implements TextWatcher {
     private final WeakReference<EditText> editTextWeakReference;
 

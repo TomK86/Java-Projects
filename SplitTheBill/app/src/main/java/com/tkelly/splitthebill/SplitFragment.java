@@ -4,17 +4,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.NumberFormat;
 
+/**
+ * A fragment hosted by SplitActivity which allows the user to access PayerListActivity and
+ * ItemListActivity.  Also allows the user to input the local sales tax percentage and start
+ * a chain of fragments to assign payments to the line items on their bill.  After finishing
+ * this chain, the amount each party member owes is displayed (if non-zero) along with a tip
+ * guide.
+ *
+ * @see SplitActivity
+ * @see PayerListActivity
+ * @see ItemListActivity
+ */
 public class SplitFragment extends Fragment {
 
     private static final String ARG_TAX = "tax";
@@ -106,16 +117,17 @@ public class SplitFragment extends Fragment {
             }
         });
 
+        mSplitBtn.setActivated(true);
         mSplitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
+                if (mApp.payersIsEmpty()) {
+                    makeToast(R.string.error_payers_empty);
+                } else if (mApp.itemsIsEmpty()) {
+                    makeToast(R.string.error_items_empty);
+                } else try {
                     double tax = Double.parseDouble(mTaxEdit.getText().toString());
-                    if (mApp.payersIsEmpty()) {
-                        makeToast(R.string.error_payers_empty);
-                    } else if (mApp.itemsIsEmpty()) {
-                        makeToast(R.string.error_items_empty);
-                    } else if (tax < 0d) {
+                    if (tax < 0d) {
                         makeToast(R.string.error_tax_negative);
                     } else {
                         mTax = (tax / 100d) + 1d;
@@ -177,9 +189,11 @@ public class SplitFragment extends Fragment {
     }
 
     protected void makeToast(int s) {
-        Toast.makeText(getActivity().getApplicationContext(),
-                getResources().getString(s),
-                Toast.LENGTH_SHORT).show();
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                getResources().getString(s), Toast.LENGTH_SHORT);
+        TextView toastText = (TextView) ((LinearLayout) toast.getView()).getChildAt(0);
+        toastText.setGravity(Gravity.CENTER_HORIZONTAL);
+        toast.show();
     }
 
 }

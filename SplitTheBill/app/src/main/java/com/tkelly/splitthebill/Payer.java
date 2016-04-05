@@ -16,14 +16,14 @@ public class Payer {
     private String name;
     private double amt_owed;
 
-    // Payer constructors
+    /**
+     * Payer constructor
+     *
+     * @param payer_name The name of this payer
+     */
     public Payer(String payer_name) {
         name = payer_name;
         amt_owed = 0d;
-    }
-    public Payer(String payer_name, double payer_amt_owed) {
-        name = payer_name;
-        amt_owed = payer_amt_owed;
     }
 
     // Get methods
@@ -33,13 +33,25 @@ public class Payer {
     // Set method
     public void setName(String new_name) { name = new_name; }
 
-    // Clear method
+    /**
+     * Method to reset the amount this payer owes to zero
+     */
     public void clearAmtOwed() { amt_owed = 0d; }
 
-    // Method to add the given amount to the amount this payer owes
+    /**
+     * Method to add the given amount to the amount this payer owes
+     *
+     * @param amount The amount to be added
+     */
     public void updateAmtOwed(double amount) { amt_owed += amount; }
 
-    // Method to get a string containing this payer's name and the amount they owe, if any
+    /**
+     * Method to get a string containing this payer's name and the amount they owe, if any
+     *
+     * @param tax The local sales tax (a multiplier between 1 and 2)
+     * @return The formatted string describing the payer and the amount they owe, or an empty
+     *         string if the payer doesn't owe anything
+     */
     public String getResult(double tax) {
         if (amt_owed > 0d) {
             return name + " owes " + NumberFormat.getCurrencyInstance().format(amt_owed * tax) +
@@ -47,7 +59,11 @@ public class Payer {
         } else { return ""; }
     }
 
-    // Method to get a string containing a tip guide based on the amount this payer owes, if any
+    /**
+     * Method to get a string containing a tip guide based on the amount this payer owes, if any
+     *
+     * @return The formatted tip guide string, or an empty string if the payer doesn't owe anything
+     */
     public String getTipGuide() {
         if (amt_owed > 0d) {
             return "10% tip ... " + NumberFormat.getCurrencyInstance().format(amt_owed * 0.1d) +
