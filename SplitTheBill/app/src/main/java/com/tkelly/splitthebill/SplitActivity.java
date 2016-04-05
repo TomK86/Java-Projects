@@ -262,7 +262,7 @@ public class SplitActivity extends AppCompatActivity
                     if (curItem == null) { break; }
                     query = String.format(res.getString(R.string.query_number), curItem.getName());
                     NumberQueryFragment number_query = NumberQueryFragment.newInstance(query,
-                            mCurrentQty, mCurrentItem);
+                            mCurrentQty);
                     mMgr.beginTransaction()
                             .add(R.id.fragment_container, number_query, fragment_id)
                             .addToBackStack(fragment_id)

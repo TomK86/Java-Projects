@@ -20,22 +20,19 @@ public class NumberQueryFragment extends Fragment {
 
     private static final String ARG_QUERY = "query";
     private static final String ARG_MAX_VAL = "maxval";
-    private static final String ARG_CURRENT_ITEM = "current_item";
 
     private String mQuery;
     private int mMaxVal;
-    private int mCurrentItem;
     private TextView mQueryText;
     private NumberPicker mQtyPicker;
     private Button mSubmitBtn;
     private OnNumberPickedListener mListener;
 
-    public static NumberQueryFragment newInstance(String query, int max_value, int current_item) {
+    public static NumberQueryFragment newInstance(String query, int max_value) {
         NumberQueryFragment fragment = new NumberQueryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_QUERY, query);
         args.putInt(ARG_MAX_VAL, max_value);
-        args.putInt(ARG_CURRENT_ITEM, current_item);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,11 +48,9 @@ public class NumberQueryFragment extends Fragment {
         if (getArguments() != null) {
             mQuery = getArguments().getString(ARG_QUERY);
             mMaxVal = getArguments().getInt(ARG_MAX_VAL);
-            mCurrentItem = getArguments().getInt(ARG_CURRENT_ITEM);
         } else if (savedInstanceState != null) {
             mQuery = savedInstanceState.getString(ARG_QUERY);
             mMaxVal = savedInstanceState.getInt(ARG_MAX_VAL);
-            mCurrentItem = savedInstanceState.getInt(ARG_CURRENT_ITEM);
         }
     }
 
@@ -92,7 +87,6 @@ public class NumberQueryFragment extends Fragment {
 
         outState.putString(ARG_QUERY, mQuery);
         outState.putInt(ARG_MAX_VAL, mMaxVal);
-        outState.putInt(ARG_CURRENT_ITEM, mCurrentItem);
     }
 
     public void onNumberPicked(int n) {

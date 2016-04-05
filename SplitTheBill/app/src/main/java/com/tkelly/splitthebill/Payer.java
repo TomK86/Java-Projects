@@ -4,7 +4,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 
 /*
- * A class which stores information about a single payer
+ * A class which stores information about a single party member
  *
  * Members:
  *  name - a String containing the name of this payer
