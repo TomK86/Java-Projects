@@ -2,6 +2,8 @@
 
 An Android app that splits complicated restaurant bills
 
+<a href='https://play.google.com/store/apps/details?id=com.tkelly.splitthebill&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-ap-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/apps/en-play-badge-border.png' height="67" width="200"/></a>
+
 ### Introduction
 
 You've just finished a big meal with a big group of people.  Everyone is full and happy, but ready to go home.  You ask for the bills, but... there's only one!  Now instead of relaxing after a great meal, you're scratching your head trying to do complicated math so that each person only pays for what they're responsible for.
@@ -29,6 +31,10 @@ This app is currently only available in English.  Please be aware that tipping c
 ### About Me
 
 My name is Tom Kelly, and I make cool stuff with code.  If you'd like to get in touch with me, please feel free to email me at [TomK0874@gmail.com](mailto:TomK0874@gmail.com).  If you'd like to see some of my other projects, take a look at my [public GitHub repository](https://github.com/TomK86?tab=repositories).
+
+### Legal
+
+Android, Google Play and the Google Play logo are trademarks of Google Inc.
 
 ### Screenshots
 
