@@ -3,6 +3,7 @@ package com.tkelly.splitthebill;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -46,12 +47,15 @@ public class EvenSplitActivity extends AppCompatActivity {
                     if (amount == 0d) {
                         makeToast(R.string.error_total_zero);
                     } else {
-                        String result = "Each person owes " + NumberFormat.getCurrencyInstance().format(amount) +
-                                "\n10% tip ... " + NumberFormat.getCurrencyInstance().format(amount * 0.1d) +
-                                "\n15% tip ... " + NumberFormat.getCurrencyInstance().format(amount * 0.15d) +
-                                "\n20% tip ... " + NumberFormat.getCurrencyInstance().format(amount * 0.2d) +
-                                "\n\nDon't forget to tip your server!";
-                        result_text.setText(result);
+                        result_text.setText(Html.fromHtml("<b>Each person owes " +
+                                NumberFormat.getCurrencyInstance().format(amount) +
+                                "</b><br/>10% tip ... " +
+                                NumberFormat.getCurrencyInstance().format(amount * 0.1d) +
+                                "<br/>15% tip ... " +
+                                NumberFormat.getCurrencyInstance().format(amount * 0.15d) +
+                                "<br/>20% tip ... " +
+                                NumberFormat.getCurrencyInstance().format(amount * 0.2d) +
+                                "<br/><br/><b>Don't forget to tip your server!</b>"));
                     }
                 } catch (ParseException e) {
                     makeToast(R.string.error_currency_format);

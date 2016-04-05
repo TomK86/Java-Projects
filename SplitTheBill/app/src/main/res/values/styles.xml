@@ -51,9 +51,27 @@
     <style name="BigButton">
         <item name="android:layout_width">180dp</item>
         <item name="android:layout_height">40dp</item>
-        <item name="android:background">@drawable/button_selector</item>
+        <item name="android:background">@drawable/bigbutton_shape_selector</item>
+        <item name="android:shadowColor">@color/shadow</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">5</item>
         <item name="android:textColor">@color/light_blue</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="SmallButton">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/smallbutton_shape_selector</item>
+        <item name="android:shadowColor">@color/shadow</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">5</item>
+        <item name="android:textColor">@drawable/smallbutton_color_selector</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

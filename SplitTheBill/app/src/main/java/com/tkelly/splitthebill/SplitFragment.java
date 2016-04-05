@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,9 +98,9 @@ public class SplitFragment extends Fragment {
             result += p.getResult(mTax) + p.getTipGuide();
         }
         if (!result.isEmpty()) {
-            result += "Don't forget to tip your server!";
+            result += "<b>Don't forget to tip your server!</b>";
         }
-        mResultText.setText(result);
+        mResultText.setText(Html.fromHtml(result));
 
         mPayerListBtn.setOnClickListener(new View.OnClickListener() {
             @Override

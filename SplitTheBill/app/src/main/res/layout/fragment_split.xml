@@ -20,16 +20,15 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:weightSum="12" >
 
             <Button
-                style="?android:attr/borderlessButtonStyle"
+                style="@style/SmallButton"
                 android:id="@+id/payer_list_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:textColor="@color/colorPrimary"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="@string/btn_payer_list" />
 
             <TextView
@@ -38,12 +37,9 @@
                 android:layout_weight="4" />
 
             <Button
-                style="?android:attr/borderlessButtonStyle"
+                style="@style/SmallButton"
                 android:id="@+id/item_list_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:textColor="@color/colorPrimary"
                 android:text="@string/btn_item_list" />
 
         </TableRow>
@@ -131,6 +127,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:gravity="center"
+            android:textSize="16sp"
             android:textColor="@color/green" />
 
     </LinearLayout>

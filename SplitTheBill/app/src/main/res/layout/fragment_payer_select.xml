@@ -20,13 +20,9 @@
         android:layout_above="@id/submit_btn"/>
 
     <Button
-        style="?android:attr/buttonBarButtonStyle"
+        style="@style/SmallButton"
         android:id="@+id/submit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/colorPrimary"
         android:text="@string/btn_next" />
 
 </RelativeLayout>

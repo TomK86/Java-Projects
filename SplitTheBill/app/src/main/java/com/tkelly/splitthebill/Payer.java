@@ -46,29 +46,39 @@ public class Payer {
     public void updateAmtOwed(double amount) { amt_owed += amount; }
 
     /**
-     * Method to get a string containing this payer's name and the amount they owe, if any
+     * Method to get an HTML-formatted string containing this payer's name and the amount they
+     * owe, if any
      *
      * @param tax The local sales tax (a multiplier between 1 and 2)
-     * @return The formatted string describing the payer and the amount they owe, or an empty
-     *         string if the payer doesn't owe anything
+     * @return The HTML-formatted string describing this payer and the amount they owe, or an
+     *         empty string if this payer doesn't owe anything
      */
     public String getResult(double tax) {
         if (amt_owed > 0d) {
-            return name + " owes " + NumberFormat.getCurrencyInstance().format(amt_owed * tax) +
-                    "\n(" + NumberFormat.getCurrencyInstance().format(amt_owed) + " before tax)\n";
+            return "<b>" + name + " owes " +
+                    NumberFormat.getCurrencyInstance().format(amt_owed * tax) +
+                    "</b><br/>(" +
+                    NumberFormat.getCurrencyInstance().format(amt_owed) +
+                    " before tax)<br/>";
         } else { return ""; }
     }
 
     /**
-     * Method to get a string containing a tip guide based on the amount this payer owes, if any
+     * Method to get an HTML-formatted string containing a tip guide based on the amount this
+     * payer owes, if any
      *
-     * @return The formatted tip guide string, or an empty string if the payer doesn't owe anything
+     * @return The HTML-formatted tip guide string, or an empty string if this payer doesn't
+     *         owe anything
      */
     public String getTipGuide() {
         if (amt_owed > 0d) {
-            return "10% tip ... " + NumberFormat.getCurrencyInstance().format(amt_owed * 0.1d) +
-                    "\n15% tip ... " + NumberFormat.getCurrencyInstance().format(amt_owed * 0.15d) +
-                    "\n20% tip ... " + NumberFormat.getCurrencyInstance().format(amt_owed * 0.2d) + "\n\n";
+            return "10% tip ... " +
+                    NumberFormat.getCurrencyInstance().format(amt_owed * 0.1d) +
+                    "<br/>15% tip ... " +
+                    NumberFormat.getCurrencyInstance().format(amt_owed * 0.15d) +
+                    "<br/>20% tip ... " +
+                    NumberFormat.getCurrencyInstance().format(amt_owed * 0.2d) +
+                    "<br/><br/>";
         } else { return ""; }
     }
 

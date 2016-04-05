@@ -104,7 +104,7 @@ public class ItemSelectFragment extends Fragment {
                 if (mSubmitBtn.isActivated()) {
                     onFinish();
                 } else {
-                    makeToast(R.string.finish_disabled);
+                    makeToast(R.string.finish_deactivated);
                 }
             }
         });

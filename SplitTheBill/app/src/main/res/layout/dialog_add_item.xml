@@ -90,19 +90,15 @@
         android:textColor="@color/black" />
 
     <Button
-        style="?android:attr/buttonBarButtonStyle"
+        style="@style/SmallButton"
         android:id="@+id/submit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/cost_edit"
-        android:textColor="@color/colorPrimary"
         android:text="@string/btn_submit" />
 
 </RelativeLayout>
