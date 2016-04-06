@@ -6,7 +6,7 @@
     <string name="add_payer_name_hint">ex: Johnny Patron</string>
     <string name="add_payer_name_label">Enter a name for this person:</string>
     <string name="action_back">Back</string>
-    <string name="app_name">SplitTheBill</string>
+    <string name="app_name">Split the Bill</string>
     <string name="btn_done">Done</string>
     <string name="btn_even_split">Evenly</string>
     <string name="btn_finish">Finish</string>
