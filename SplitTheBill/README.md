@@ -22,7 +22,7 @@ To split a bill evenly among all party members, simply tap the "Evenly" button o
 
 To split a bill so that each party member only pays for the line items they are responsible for, just tap the "By Line Item" button on the home screen.  On this screen, you can tap the "Edit Party" button to add and remove members from your party, or you can tap the "Edit Bill" button to add and remove line items from your bill.  Once you've finished creating your party and bill, type in the local sales tax percentage and press the "Split" button.  You will be asked to select one line item at a time from your bill.  For each selected line item, you will be asked to select the party member(s) who are responsible for it.  You can then choose to split the total cost of the selected line item evenly among the selected party members, or break it down further so that each member only pays for the quantity they are responsible for.  Once you've finished assigning payments to each line item on your bill, you can either edit a line item by selecting it again or just press the "Finish" button to return to the main screen and show the amount each party member is responsible for, as well as a handy tip guide.
 
-##### International Use
+##### International Users
 
 All currency displayed by SplitTheBill is automatically adjusted according to your mobile device's regional metadata.  This means that any currency amount displayed by the app will automatically be converted to your local currency.  The app does **not** use your GPS location information; rather, it pulls metadata from the device itself about what general geographical region you are located in, and updates the displayed currency accordingly.
 
