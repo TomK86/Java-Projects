@@ -8,7 +8,7 @@ An Android app that splits complicated restaurant bills
 
 You've just finished a big meal with a big group of people.  Everyone is full and happy, but ready to go home.  You ask for the bills, but... there's only one!  Now instead of relaxing after a great meal, you're scratching your head trying to do complicated math so that each person only pays for what they're responsible for.
 
-Has this ever happened to you?  It's happened to me many times, so I decided to create SplitTheBill.  This app makes the process of splitting a complicated restaurant bill much easier by guiding you through it in a step-by-step manner and displaying detailed results on-screen for everyone to see.
+Has this ever happened to you?  It's happened to me many times, so I decided to create *Split the Bill*.  This app makes the process of splitting a complicated restaurant bill much easier by guiding you through it in a step-by-step manner and displaying detailed results on-screen for everyone to see.
 
 ### How to Use
 
